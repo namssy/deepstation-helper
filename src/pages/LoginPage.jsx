@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { isAuthenticated } from '../utils/auth';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    // 이미 로그인된 사용자인지 확인 (만료 시간 포함)
+    if (isAuthenticated()) {
+      // 유효한 로그인 정보가 있으면 홈페이지로 리다이렉트
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -36,7 +47,18 @@ const LoginPage = () => {
         }
       );
       console.log('Login successful:', response.data);
+      
       // 로그인 성공 후 처리
+      // 응답 데이터에 만료 시간 추가하여 로컬스토리지에 저장
+      const authDataWithExpiry = {
+        ...response.data,
+        loginTime: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 60 * 60 * 1000).toISOString() // 1시간 후 만료
+      };
+      localStorage.setItem('deepstation_auth', JSON.stringify(authDataWithExpiry));
+      
+      // 루트 경로로 리다이렉트
+      navigate('/');
     } catch (err) {
       setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
       console.error('Login error:', err);
