@@ -131,9 +131,9 @@ const LoginPage = () => {
           </div>
 
           <div className="text-center">
-            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-              비밀번호를 잊으셨나요?
-            </a>
+            <span className="text-gray-500 text-sm">
+              비밀번호를 잊으셨나요? 관리자에게 문의하세요.
+            </span>
           </div>
         </form>
       </div>
