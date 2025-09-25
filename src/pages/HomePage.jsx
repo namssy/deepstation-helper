@@ -7,48 +7,10 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [authData, setAuthData] = useState(null);
   const [isChecking, setIsChecking] = useState(true);
-  const [dayInfoData, setDayInfoData] = useState(null);
-  const [isLoadingDayInfo, setIsLoadingDayInfo] = useState(false);
-  const [dayInfoError, setDayInfoError] = useState('');
   const [weekData, setWeekData] = useState([]);
   const [isLoadingWeek, setIsLoadingWeek] = useState(false);
   const [weekError, setWeekError] = useState('');
 
-  // dayinfo API 호출 함수
-  const fetchDayInfo = async () => {
-    if (!authData || !authData.cookies) {
-      setDayInfoError('쿠키 정보가 없습니다.');
-      return;
-    }
-
-    setIsLoadingDayInfo(true);
-    setDayInfoError('');
-
-    try {
-      const today = new Date();
-      const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-      
-      const response = await axios.post(
-        'https://u9q3vta531.execute-api.ap-northeast-2.amazonaws.com/default/dayinfo',
-        {
-          date: dateString,
-          cookies: authData.cookies
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-      
-      setDayInfoData(response.data);
-    } catch (error) {
-      setDayInfoError('일정 정보를 가져오는데 실패했습니다.');
-      console.error('DayInfo API error:', error);
-    } finally {
-      setIsLoadingDayInfo(false);
-    }
-  };
 
   // 일주일 데이터를 가져오는 함수
   const fetchWeekData = async () => {
@@ -161,11 +123,11 @@ const HomePage = () => {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="border-4 border-dashed border-gray-200 rounded-lg p-8">
+      <main className="max-w-7xl mx-auto py-0 sm:py-6 lg:px-8">
+        <div className="px-0 sm:px-4 sm:py-6">
+          <div className="border-0 p-0 sm:border-4 sm:border-dashed sm:border-gray-200 sm:rounded-lg sm:p-8">
               {/* 일주일 데이터 표시 */}
-              <div className="bg-white shadow rounded-lg p-6 mb-6">
+              <div className="bg-white shadow rounded-lg p-2 mb-6 sm:mb-2 sm:p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-medium text-gray-900">일주일 일정</h3>
                   <button
