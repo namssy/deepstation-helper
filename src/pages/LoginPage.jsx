@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../utils/auth';
+import { API_CONFIG, isValidEmail } from '../config/api';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -32,10 +33,17 @@ const LoginPage = () => {
     setIsLoading(true);
     setError('');
 
+    // 이메일 형식 검증
+    if (!isValidEmail(formData.email)) {
+      setError('올바른 이메일 형식을 입력해주세요.');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       // DeepStation 로그인 API 호출
       const response = await axios.post(
-        'https://u9q3vta531.execute-api.ap-northeast-2.amazonaws.com/default/deepstation-login',
+        `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.LOGIN}`,
         {
           email: formData.email,
           password: formData.password
@@ -46,7 +54,6 @@ const LoginPage = () => {
           }
         }
       );
-      console.log('Login successful:', response.data);
       
       // 로그인 성공 후 처리
       // 응답 데이터에 만료 시간 추가하여 로컬스토리지에 저장
@@ -61,7 +68,10 @@ const LoginPage = () => {
       navigate('/');
     } catch (err) {
       setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
-      console.error('Login error:', err);
+      // 프로덕션에서는 상세한 에러 로그를 제거
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Login error:', err);
+      }
     } finally {
       setIsLoading(false);
     }

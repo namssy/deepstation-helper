@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getValidAuthData, logout } from '../utils/auth';
+import { API_CONFIG } from '../config/api';
 import axios from 'axios';
 
 const HomePage = () => {
@@ -33,7 +34,7 @@ const HomePage = () => {
         
         weekPromises.push(
           axios.post(
-            'https://u9q3vta531.execute-api.ap-northeast-2.amazonaws.com/default/dayinfo',
+            `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.DAY_INFO}`,
             {
               date: dateString,
               cookies: authData.cookies
@@ -54,7 +55,10 @@ const HomePage = () => {
       setWeekData(results);
     } catch (error) {
       setWeekError('일주일 일정 정보를 가져오는데 실패했습니다.');
-      console.error('Week data API error:', error);
+      // 프로덕션에서는 상세한 에러 로그를 제거
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Week data API error:', error);
+      }
     } finally {
       setIsLoadingWeek(false);
     }
