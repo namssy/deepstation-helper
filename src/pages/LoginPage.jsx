@@ -77,6 +77,13 @@ const LoginPage = () => {
           <p className="mt-2 text-center text-sm text-gray-600">
             계정에 로그인하세요
           </p>
+          
+          {/* 인사말 */}
+          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-sm text-blue-800 text-center leading-relaxed">
+            안녕하세요! 딥스 부이 예약에 어려움을 겪으시는 강사님들을 위해 개발된 도구입니다. 이 도구가 안전하고 즐거운 다이빙 경험에 도움이 되기를 바랍니다. 악용 없이 선한 목적으로만 사용해주시면 감사하겠습니다. 항상 안전하고 행복한 다이빙 되세요! 🤿
+            </p>
+          </div>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
