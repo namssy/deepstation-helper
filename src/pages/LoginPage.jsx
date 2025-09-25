@@ -132,7 +132,7 @@ const LoginPage = () => {
 
           <div className="text-center">
             <span className="text-gray-500 text-sm">
-              비밀번호를 잊으셨나요? 관리자에게 문의하세요.
+              이메일과 비밀번호는 서버에 저장되지 않고, 세션 토큰만 로컬에 저장됩니다.
             </span>
           </div>
         </form>
