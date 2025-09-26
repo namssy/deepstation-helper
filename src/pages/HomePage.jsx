@@ -246,8 +246,6 @@ const HomePage = () => {
                         </h4>
                         
                         {dayData.data.data && dayData.data.data.remain_buoys && (
-                          <div className="border border-black-200 rounded-md p-3">
-                            <h5 className="text-sm font-medium text-green-900 mb-3">예약 현황</h5>
                             <div className="overflow-x-auto">
                               <table className="min-w-full text-sm">
                                 <thead>
@@ -319,7 +317,6 @@ const HomePage = () => {
                                   })}
                                 </tbody>
                               </table>
-                            </div>
                           </div>
                         )}
                       </div>
