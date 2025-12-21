@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../utils/auth';
 import { API_CONFIG, isValidEmail } from '../config/api';
 
+import { getCurrentISOString, getFutureISOString } from '../utils/date';
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -62,16 +64,16 @@ const LoginPage = () => {
           }
         }
       );
-      
+
       // 로그인 성공 후 처리
       // 응답 데이터에 만료 시간 추가하여 로컬스토리지에 저장
       const authDataWithExpiry = {
         ...response.data,
-        loginTime: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + 60 * 60 * 1000).toISOString() // 1시간 후 만료
+        loginTime: getCurrentISOString(),
+        expiresAt: getFutureISOString(60) // 60분(1시간) 후 만료
       };
       localStorage.setItem('deepstation_auth', JSON.stringify(authDataWithExpiry));
-      
+
       // 루트 경로로 리다이렉트
       navigate('/');
     } catch (err) {
@@ -95,7 +97,7 @@ const LoginPage = () => {
           <p className="mt-2 text-center text-sm text-gray-600">
             계정에 로그인하세요
           </p>
-          
+
           {/* 이용약관 */}
           <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
             <h3 className="text-sm font-semibold text-yellow-800 mb-3 text-center">
@@ -103,20 +105,20 @@ const LoginPage = () => {
             </h3>
             <div className="text-xs text-yellow-800 space-y-2 leading-relaxed">
               <div>
-                <strong>1. 🤖 이건 비공식(Unofficial) 툴입니다!</strong><br/>
+                <strong>1. 🤖 이건 비공식(Unofficial) 툴입니다!</strong><br />
                 딥스테이션에서 만들거나 인증한 공식 툴이 아니므로, 이 툴로 인해 발생하는 문제에 대해 딥스테이션은 어떠한 책임도 지지 않습니다.
               </div>
               <div>
-                <strong>2. 💥 정보가 정확하지 않거나, 갑자기 작동을 멈출 수 있습니다.</strong><br/>
-                이 툴은 딥스테이션 웹사이트의 현재 구조를 기반으로 정보를 읽어옵니다. 따라서 사이트가 업데이트되면 예고 없이 작동을 멈추거나, 실제와 다른 정보를 보여줄 수 있습니다.<br/>
+                <strong>2. 💥 정보가 정확하지 않거나, 갑자기 작동을 멈출 수 있습니다.</strong><br />
+                이 툴은 딥스테이션 웹사이트의 현재 구조를 기반으로 정보를 읽어옵니다. 따라서 사이트가 업데이트되면 예고 없이 작동을 멈추거나, 실제와 다른 정보를 보여줄 수 있습니다.<br />
                 <span className="font-semibold">※ 중요: 여기서 확인한 정보는 참고용으로만 활용하시고, 실제 예약은 반드시 딥스테이션 공식 사이트에서 직접 진행하며 최종 확인해 주세요.</span>
               </div>
               <div>
-                <strong>3. ✅ 모든 책임은 사용자에게 있습니다.</strong><br/>
+                <strong>3. ✅ 모든 책임은 사용자에게 있습니다.</strong><br />
                 이 툴이 보여주는 정보를 신뢰하고 행동(예: 일정 계획)한 결과에 대한 책임은 사용자 본인에게 있다는 점에 동의하시는 경우에만 사용해 주세요.
               </div>
               <div>
-                <strong>4. ⚠️ 개인정보 처리 및 보안 위험 고지</strong><br/>
+                <strong>4. ⚠️ 개인정보 처리 및 보안 위험 고지</strong><br />
                 입력하신 아이디와 비밀번호는 딥스테이션 인증을 위해 서버에 직접 전달하는 과정을 거칩니다. 이 과정에서 비밀번호를 별도로 저장하지 않더라도, 공식 사이트가 아닌 곳에서 민감한 정보를 다루는 것은 근본적인 보안 위험을 내포하고 있습니다. 따라서 이 툴의 개발자와 작동 방식을 완전히 신뢰하시는 경우에만 사용해 주시기 바랍니다.
               </div>
             </div>
