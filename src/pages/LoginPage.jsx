@@ -98,8 +98,22 @@ const LoginPage = () => {
             계정에 로그인하세요
           </p>
 
+          {/* 서비스 중단 안내 배너 */}
+          <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg shadow-sm">
+            <div className="flex items-center justify-center mb-2">
+              <span className="text-2xl mr-2">🚫</span>
+              <h3 className="text-lg font-bold text-red-700">
+                서비스 운영 중단
+              </h3>
+            </div>
+            <p className="text-sm text-red-600 text-center font-medium">
+              현재 API가 차단된 상태로 검토 중이며,<br />
+              추후 다른 채널을 통해 안내드리겠습니다.
+            </p>
+          </div>
+
           {/* 이용약관 */}
-          <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg opacity-75">
             <h3 className="text-sm font-semibold text-yellow-800 mb-3 text-center">
               ⚠️ 이용 전 필수 안내사항
             </h3>
@@ -136,8 +150,9 @@ const LoginPage = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="이메일 주소"
+                disabled
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-500 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 cursor-not-allowed"
+                placeholder="이메일 주소 (운영 중단)"
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -152,8 +167,9 @@ const LoginPage = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="비밀번호"
+                disabled
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-500 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 cursor-not-allowed"
+                placeholder="비밀번호 (운영 중단)"
                 value={formData.password}
                 onChange={handleChange}
               />
@@ -168,12 +184,13 @@ const LoginPage = () => {
                 name="terms-agreement"
                 type="checkbox"
                 checked={isTermsAgreed}
+                disabled
                 onChange={(e) => setIsTermsAgreed(e.target.checked)}
-                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded bg-gray-200 cursor-not-allowed"
               />
             </div>
             <div className="ml-3 text-sm">
-              <label htmlFor="terms-agreement" className="text-gray-700">
+              <label htmlFor="terms-agreement" className="text-gray-500 cursor-not-allowed">
                 위 이용약관을 읽었으며, 모든 내용에 동의합니다.
               </label>
             </div>
@@ -188,10 +205,10 @@ const LoginPage = () => {
           <div>
             <button
               type="submit"
-              disabled={isLoading || !isTermsAgreed}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={true}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-400 cursor-not-allowed hover:bg-gray-400"
             >
-              {isLoading ? '로그인 중...' : '로그인'}
+              현재 이용 불가
             </button>
           </div>
         </form>
